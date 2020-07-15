@@ -25,8 +25,10 @@ const client = new tmi.client(options);
 const Cooldown = {
   cdownTime: Config.cdownTime * 1000,
   timestamps: {
+    '!cam': null,
     '!commands': null,
     '!discord': null,
+    '!hack': null,
     '!help': null,
     '!instagram': null,
     '!pb': null,
@@ -96,6 +98,15 @@ client.on('chat', (channel, user, message, self) => {
   }
   Timer.newMsg();
 
+  // !cam
+  if(message.toLowerCase() === '!cam'){
+    if(Cooldown.usable('!cam')){
+      client.say(Config.myChannel, 'I will not be streaming with webcam for a while. I hope you understand.');
+      Cooldown.updateTimestamp('!cam');
+    }
+    return;
+  }
+
   // !commands
   if(message.toLowerCase() === '!commands'){
     const cmds = Object.keys(Cooldown.timestamps);
@@ -123,13 +134,13 @@ client.on('chat', (channel, user, message, self) => {
   }
 
   // !hack
-  // if(message.toLowerCase() === '!hack'){
-  //   if(Cooldown.usable('!hack')){
-  //     client.say(Config.myChannel, 'This hack is called Nachos and Fried Oreos, made by GbreezeSunset and MiracleWater. https://www.smwcentral.net/?p=section&a=details&id=19044');
-  //     Cooldown.updateTimestamp('!hack');
-  //   }
-  //   return;
-  // }
+  if(message.toLowerCase() === '!hack'){
+    if(Cooldown.usable('!hack')){
+      client.say(Config.myChannel, 'This hack is called JUMP, made by various creators. https://www.smwcentral.net/?p=section&a=details&id=14495');
+      Cooldown.updateTimestamp('!hack');
+    }
+    return;
+  }
 
   // !help
   if(message.toLowerCase().startsWith('!help')){
@@ -178,7 +189,8 @@ client.on('chat', (channel, user, message, self) => {
   // !schedule
   if(message.toLowerCase() === '!schedule'){
     if(Cooldown.usable('!schedule')){
-      client.say(Config.myChannel, 'I stream at 1pm EDT on Tuesdays, Thursdays, Fridays, Saturdays, and Sundays. Bonus streams could happen, but at random times.');
+      console.log(user);
+      client.say(Config.myChannel, 'I stream on days that I feel like it, generally in the afternoons.');
       Cooldown.updateTimestamp('!schedule');
     }
     return;
